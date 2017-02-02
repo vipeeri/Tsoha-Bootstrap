@@ -3,12 +3,12 @@
 class Task extends BaseModel {
 
     // Attribuutit
-    public $id, $task_id, $name, $deadline, $description, $added, $priority, $category;
+    public $id, $name, $deadline, $added;
 
     // Konstruktori
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $siivous = new Task(array('id' => 1, 'name' => 'The Elder Scrolls X: Siivoa', 'description' => 'siivoa wc'));
+       // $siivous = new Task(array('id' => 1, 'name' => 'Siivoa'));
     }
 
     public static function all() {
@@ -25,13 +25,9 @@ class Task extends BaseModel {
             // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
             $tasks[] = new Task(array(
                 'id' => $row['id'],
-                'task_id' => $row['task_id'],
                 'name' => $row['name'],
-                'description' => $row['description'],
-                'priority' => $row['priority'],
                 'added' => $row['added'],
                 'deadline' => $row['deadline'],
-                'category' => $row['category']
             ));
         }
 
@@ -46,17 +42,26 @@ class Task extends BaseModel {
         if ($row) {
             $task = new Task(array(
                 'id' => $row['id'],
-                'task_id' => $row['task_id'],
                 'name' => $row['name'],
-                'description' => $row['description'],
-                'priority' => $row['priority'],
                 'added' => $row['added'],
                 'deadline' => $row['deadline'],
-                'category' => $row['category']
             ));
 
             return $task;
         }
     }
+    
+    public function save(){
+    // Lisätään RETURNING id tietokantakyselymme loppuun, niin saamme lisätyn rivin id-sarakkeen arvon
+    $query = DB::connection()->prepare('INSERT INTO Task (name, added, deadline) VALUES (:name, :added, :deadline) RETURNING id');
+    // Muistathan, että olion attribuuttiin pääse syntaksilla $this->attribuutin_nimi
+    $query->execute(array('name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline));
+    // Haetaan kyselyn tuottama rivi, joka sisältää lisätyn rivin id-sarakkeen arvon
+    $row = $query->fetch();
+    // Asetetaan lisätyn rivin id-sarakkeen arvo oliomme id-attribuutin arvoksi
+    $this->id = $row['id'];
+//    Kint::trace();
+//    Kint::dump($row);
+  }
 
 }

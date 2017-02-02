@@ -1,15 +1,11 @@
 <?php
 
 $routes->get('/', function() {
-    HelloWorldController::index();
+    TaskController::index();
 });
 
 $routes->get('/todo_edit', function() {
     HelloWorldController::todo_edit();
-});
-
-$routes->get('/todo_list', function() {
-    HelloWorldController::todo_list();
 });
 
 $routes->get('/todo_show', function() {
@@ -23,3 +19,24 @@ $routes->get('/hiekkalaatikko', function() {
 $routes->get('/login', function() {
     HelloWorldController::login();
 });
+
+$routes->get('/task', function() {
+    TaskController::index();
+});
+
+$routes->get('/task/new', function() {
+    TaskController::new_task();
+});
+
+$routes->post('/task/add', function() {
+    TaskController::store();
+});
+
+
+$routes->get('/task/:id', function($id) {
+    TaskController::task($id);
+});
+
+
+
+
