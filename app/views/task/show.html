@@ -1,22 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 {% if message %}
+
 <div class="alert alert-success">
-     {{message}}
+    {{message}}
 </div>
+
 {% endif %}
 
-  <h1>{{task.name}}</h1>
-  <p>
-    <button class="btn btn-danger">Remove</button> <a href="#" class="btn btn-default">Edit</a>
-  </p>
-  <!-- Tiedot tulee listana tähän -->
-  <ul>
+<h1>{{task.name}}</h1>
+
+<form method="post" action="{{base_path}}/task/{{task.id}}/destroy" style="display: inline-block;">
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>
+
+<a href="{{base_path}}/task/{{task.id}}/edit" class="btn btn-success">Edit</a>
+
+
+<!-- Tiedot tulee listana tähän -->
+<ul>
     <li><strong>Added:</strong> {{task.added}}</li>
-<!--    <li><strong>Status:</strong> <label class="label label-danger">undone</label></li>-->
+    <!--    <li><strong>Status:</strong> <label class="label label-danger">undone</label></li>-->
     <li><strong>Deadline:</strong> {{task.deadline}}</li>
-  </ul>
-  <!-- Kuvaus tulee tähän -->
-  <p>
-  </p>
+</ul>
+<!-- Kuvaus tulee tähän -->
+<p>
+</p>
 {% endblock %}

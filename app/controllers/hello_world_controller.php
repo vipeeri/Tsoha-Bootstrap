@@ -1,4 +1,5 @@
 <?php
+
 class HelloWorldController extends BaseController {
 
     public static function index() {
@@ -8,12 +9,15 @@ class HelloWorldController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-//    $siivous = Task::find(1);
-//    $tasks = Task::all();
-//    // Kint-luokan dump-metodi tulostaa muuttujan arvon
-//    Kint::dump($tasks);
-//    Kint::dump($siivous);
-  
+
+        $siivous = new Task(array(
+            'name' => 'd',
+            'added' => '',
+            'deadline' => ''
+        ));
+        $errors = $siivous->errors();
+
+        Kint::dump($errors);
     }
 
     public static function todo_edit() {

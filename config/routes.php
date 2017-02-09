@@ -1,16 +1,22 @@
 <?php
 
+$routes->post('/task/:id/edit', function($id) {
+    TaskController::updateTask($id);
+});
+
+$routes->get('/task/:id/edit', function($id) {
+    TaskController::editTask($id);
+});
+
+
+$routes->post('/task/:id/destroy', function($id) {
+    TaskController::destroyTask($id);
+});
+
 $routes->get('/', function() {
     TaskController::index();
 });
 
-$routes->get('/todo_edit', function() {
-    HelloWorldController::todo_edit();
-});
-
-$routes->get('/todo_show', function() {
-    HelloWorldController::todo_show();
-});
 
 $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();

@@ -8,7 +8,8 @@ class Task extends BaseModel {
     // Konstruktori
     public function __construct($attributes) {
         parent::__construct($attributes);
-       // $siivous = new Task(array('id' => 1, 'name' => 'Siivoa'));
+        // $siivous = new Task(array('id' => 1, 'name' => 'Siivoa'));
+        $this->validators = array('validate_name', 'validate_deadline', 'validate_added');
     }
 
     public static function all() {
@@ -50,18 +51,66 @@ class Task extends BaseModel {
             return $task;
         }
     }
-    
-    public function save(){
-    // Lisätään RETURNING id tietokantakyselymme loppuun, niin saamme lisätyn rivin id-sarakkeen arvon
-    $query = DB::connection()->prepare('INSERT INTO Task (name, added, deadline) VALUES (:name, :added, :deadline) RETURNING id');
-    // Muistathan, että olion attribuuttiin pääse syntaksilla $this->attribuutin_nimi
-    $query->execute(array('name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline));
-    // Haetaan kyselyn tuottama rivi, joka sisältää lisätyn rivin id-sarakkeen arvon
-    $row = $query->fetch();
-    // Asetetaan lisätyn rivin id-sarakkeen arvo oliomme id-attribuutin arvoksi
-    $this->id = $row['id'];
+
+    public function save() {
+        // Lisätään RETURNING id tietokantakyselymme loppuun, niin saamme lisätyn rivin id-sarakkeen arvon
+        $query = DB::connection()->prepare('INSERT INTO Task (name, added, deadline) VALUES (:name, :added, :deadline) RETURNING id');
+        // Muistathan, että olion attribuuttiin pääse syntaksilla $this->attribuutin_nimi
+        $query->execute(array('name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline));
+        // Haetaan kyselyn tuottama rivi, joka sisältää lisätyn rivin id-sarakkeen arvon
+        $row = $query->fetch();
+        // Asetetaan lisätyn rivin id-sarakkeen arvo oliomme id-attribuutin arvoksi
+        $this->id = $row['id'];
 //    Kint::trace();
 //    Kint::dump($row);
-  }
+    }
+
+    public function update() {
+        $query = DB::connection()->prepare('UPDATE Task SET (name, added, deadline) = (:name, :added, :deadline) RETURNING id) WHERE id = :id');
+        $query->execute(array('id' => $this->id, 'name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline));
+        
+    }
+
+    public function destroy() {
+        $query = DB::connection()->prepare("DELETE FROM Task WHERE id='$this->id'");
+        $query->execute();
+        //$query->execute(array('name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline));
+       
+        
+    }
+
+    public function validate_name() {
+        $errors = array();
+        if ($this->name == '' || $this->name == null) {
+            $errors[] = 'Name-field can not be empty!';
+        }
+        if (strlen($this->name) < 3) {
+            $errors[] = 'Minimum length for name is 3 characters!';
+        }
+
+        return $errors;
+    }
+
+    public function validate_deadline() {
+        $errors = array();
+
+        if ($this->deadline == '' || $this->deadline == null) {
+            $errors[] = 'Deadline-field can not be empty!';
+        }
+
+
+
+        return $errors;
+    }
+
+    public function validate_added() {
+        $errors = array();
+        if ($this->added == '' || $this->added == null) {
+            $errors[] = 'Added-field can not be empty!';
+        }
+
+
+        return $errors;
+    }
 
 }

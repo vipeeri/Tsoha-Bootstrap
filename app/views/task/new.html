@@ -1,25 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Add a new task</h1>
+<h1>Add a new task</h1>
 
-  <form method="post" action="{{base_path}}/task/add">
+{% if errors %}
+<div class="alert alert-danger">
+    <ul>
+        {% for error in errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<form method="post" action="{{base_path}}/task/add">
     <div class="form-group">
-      <label>Name</label>
-      <input type="text" name="name" class="form-control">
+        <label>Name</label>
+        <input type="text" name="name" class="form-control">
     </div>
 
     <div class="form-group">
-      <label>Added</label>
-      <input type="text" name="added" class="form-control">
+        <label>Added</label>
+        <input type="date" name="added" class="form-control">
     </div>
 
     <div class="form-group">
-      <label>Deadline</label>
-      <input type="text" name="deadline" class="form-control">
+        <label>Deadline</label>
+        <input type="date" name="deadline" class="form-control">
     </div>
 
     <div class="form-group">
-      <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary">Add</button>
     </div>
-  </form>
+</form>
 {% endblock %}
