@@ -3,7 +3,7 @@
 class Task extends BaseModel {
 
     // Attribuutit
-    public $id, $name, $deadline, $added, $operator_id;
+    public $id, $name, $deadline, $added;
 
     // Konstruktori
     public function __construct($attributes) {
@@ -13,10 +13,9 @@ class Task extends BaseModel {
 
     public static function all() {
         // Alustetaan kysely tietokantayhteydellämme
-        $query = DB::connection()->prepare('SELECT * FROM Task WHERE operator_id = :id');
+        $query = DB::connection()->prepare('SELECT * FROM Task');
         // Suoritetaan kysely
-        $query->execute(array('id' => $_SESSION['operator']));
-        //$query->execute();
+        $query->execute();
         // Haetaan kyselyn tuottamat rivit
         $rows = $query->fetchAll();
         $tasks = array();
@@ -29,7 +28,6 @@ class Task extends BaseModel {
                 'name' => $row['name'],
                 'added' => $row['added'],
                 'deadline' => $row['deadline'],
-                'operator_id' => $row['operator_id']
             ));
         }
 
@@ -47,20 +45,33 @@ class Task extends BaseModel {
                 'name' => $row['name'],
                 'added' => $row['added'],
                 'deadline' => $row['deadline'],
-                'operator_id' => $row['operator_id']
             ));
 
             return $task;
         }
     }
     
-     
+        public static function findByUserName($username)
+    {
+        $query = DB::connection()->prepare('SELECT * FROM operator WHERE username = :username LIMIT 1');
+        $query->execute(array('username' => $name));
+        $row = $query->fetch();
+        if ($row) {
+            $account = new Account(array(
+                'id' => $row['id'],
+                'username' => $row['username'],
+                'password' => $row['password'],
+            ));
+            return $operator;
+        }
+        return null;
+    }
 
     public function save() {
         // Lisätään RETURNING id tietokantakyselymme loppuun, niin saamme lisätyn rivin id-sarakkeen arvon
-        $query = DB::connection()->prepare('INSERT INTO Task (name, added, deadline, operator_id) VALUES (:name, :added, :deadline, :operator_id) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO Task (name, added, deadline) VALUES (:name, :added, :deadline) RETURNING id');
         // Muistathan, että olion attribuuttiin pääse syntaksilla $this->attribuutin_nimi
-        $query->execute(array('name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline, 'operator_id' => $_SESSION['operator']));
+        $query->execute(array('name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline));
         // Haetaan kyselyn tuottama rivi, joka sisältää lisätyn rivin id-sarakkeen arvon
         $row = $query->fetch();
         // Asetetaan lisätyn rivin id-sarakkeen arvo oliomme id-attribuutin arvoksi
@@ -70,8 +81,8 @@ class Task extends BaseModel {
     }
 
     public function update() {
-        $query = DB::connection()->prepare('UPDATE Task SET (name, added, deadline, operator_id) = (:name, :added, :deadline, :operator_id) WHERE id = :id');
-        $query->execute(array('id' => $this->id, 'name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline, 'operator_id' => $_SESSION['operator']));
+        $query = DB::connection()->prepare('UPDATE Task SET (name, added, deadline) = (:name, :added, :deadline) WHERE id = :id');
+        $query->execute(array('id' => $this->id, 'name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline));
         
     }
 

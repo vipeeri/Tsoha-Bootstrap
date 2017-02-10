@@ -85,12 +85,12 @@ class TaskController extends BaseController {
             'deadline' => $params['deadline']
         );
 
-        $taskupdated = new Task($attributes);
-        $errors = $taskupdated->errors();
+        $task = new Task($attributes);
+        $errors = $task->errors();
 
         if (count($errors) > 0) {
             $task = Task::find($id);
-            View::make('task/edit.html', array('errors' => $errors, 'task' => $taskupdated, 'attributes' => $attributes));
+            View::make('task/edit.html', array('errors' => $errors, 'attributes' => $attributes, 'task' => $task));
         } else {
             $task->update();
 
