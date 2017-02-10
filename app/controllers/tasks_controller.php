@@ -21,7 +21,7 @@ class TaskController extends BaseController {
 
     public static function editTask($id) {
         $task = Task::find($id);
-        View::make('task/edit.html', array('attributes' => $task));
+        View::make('task/edit.html', array('task' => $task));
     }
 
     public static function store() {
@@ -57,13 +57,11 @@ class TaskController extends BaseController {
         $params = $_POST;
 
         $attributes = array(
+            'id' => $id,
             'name' => $params['name'],
             'added' => $params['added'],
             'deadline' => $params['deadline']
-        );
-
-        // Alustetaan Game-olio käyttäjän syöttämillä tiedoilla
-     
+        );     
         
         $task = new Task($attributes);
         $errors = $task->errors();

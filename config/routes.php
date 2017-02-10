@@ -22,9 +22,6 @@ $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
 });
 
-$routes->get('/login', function() {
-    HelloWorldController::login();
-});
 
 $routes->get('/task', function() {
     TaskController::index();
@@ -41,6 +38,15 @@ $routes->post('/task/add', function() {
 
 $routes->get('/task/:id', function($id) {
     TaskController::task($id);
+});
+
+$routes->get('/login', function(){
+  // Kirjautumislomakkeen esittäminen
+  UserController::login();
+});
+$routes->post('/login', function(){
+  // Kirjautumisen käsittely
+  UserController::handle_login();
 });
 
 
