@@ -21,3 +21,6 @@ Laita tähän aihekuvaus tai [linkki valmiiseen aiheeseen](http://advancedkitten
 * [tables] (http://getbootstrap.com/css/#tables) - taulukot
 * [forms] (http://getbootstrap.com/css/#forms) - lomakkeet
 * [buttons] (http://getbootstrap.com/css/#buttons) - painikkeet
+
+## Käyttäjätunnus: admin
+## Salasana: admin

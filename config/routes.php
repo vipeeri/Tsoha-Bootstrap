@@ -14,7 +14,23 @@ $routes->post('/task/:id/destroy', function($id) {
 });
 
 $routes->get('/', function() {
-    TaskController::index();
+    OperatorController::login();
+});
+
+$routes->post('/login', function() {
+    OperatorController::handle_login();
+});
+
+$routes->get('/logout', function () {
+    OperatorController::logout();
+});
+
+$routes->get('/register', function() {
+    OperatorController::register();
+});
+
+$routes->post('/register', function() {
+    OperatorController::createAccount();
 });
 
 
@@ -40,14 +56,6 @@ $routes->get('/task/:id', function($id) {
     TaskController::task($id);
 });
 
-$routes->get('/login', function(){
-  // Kirjautumislomakkeen esittäminen
-  UserController::login();
-});
-$routes->post('/login', function(){
-  // Kirjautumisen käsittely
-  UserController::handle_login();
-});
 
 
 

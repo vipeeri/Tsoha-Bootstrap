@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Kirjaudu sisään</h1>
+  <h1>Login</h1>
 
   <form method="post" action="{{base_path}}/login">
     <div class="form-group">
-      <label>Käyttäjätunnus</label>
-      <input type="text" class="form-control" name="username" value="{{username}}">
+      <label>Username</label>
+      <input class="form-control" type="text" {% if username %}value={{username}}{% endif %} name="username">
     </div>
 
     <div class="form-group">
-      <label>Salasana</label>
+      <label>Password</label>
       <input type="password" class="form-control" name="password">
     </div>
 
-    <button type="submit" class="btn btn-primary">Kirjaudu sisään</button>
+    <button type="submit" class="btn btn-primary">Login</button>
   </form>
 {% endblock %}

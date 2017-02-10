@@ -3,14 +3,11 @@
   class BaseController{
 
     public static function get_user_logged_in(){
-      // Toteuta kirjautuneen käyttäjän haku tähän
-      // Katsotaan onko user-avain sessiossa
-    if(isset($_SESSION['user'])){
-      $user_id = $_SESSION['user'];
-      // Pyydetään User-mallilta käyttäjä session mukaisella id:llä
-      $user = User::find($user_id);
+    if(isset($_SESSION['operator'])){
+      $operator_id = $_SESSION['operator'];
+      $operator = Operator::findOne($operator_id);
 
-      return $user;
+      return $operator;
     }
 
     // Käyttäjä ei ole kirjautunut sisään

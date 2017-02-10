@@ -2,9 +2,9 @@
 
 CREATE TABLE Operator(
     id SERIAL PRIMARY KEY, -- SERIAL tyyppinen pääavain pitää huolen, että tauluun lisätyllä rivillä on aina uniikki pääavain. Kätevää!
-    name varchar(50) NOT NULL, -- Muista erottaa sarakkeiden määrittelyt pilkulla!
+    username varchar(50) NOT NULL, -- Muista erottaa sarakkeiden määrittelyt pilkulla!
     password varchar(50) NOT NULL,
-    status varchar(50) NOT NULL
+    status boolean DEFAULT false
 );
 
 CREATE TABLE Priority(
@@ -15,6 +15,7 @@ CREATE TABLE Priority(
 CREATE TABLE Task(
      id SERIAL PRIMARY KEY,
      priority_id INTEGER REFERENCES Priority (id), -- Viiteavain Priority-tauluun
+     operator_id INTEGER REFERENCES Operator (id), -- Viiteavain Operator-tauluun
      name varchar(120) NOT NULL,
      added DATE,
      deadline DATE
