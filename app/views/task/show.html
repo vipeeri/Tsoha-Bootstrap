@@ -19,6 +19,11 @@
     <li><strong>Added:</strong> {{task.added}}</li>
     <!--    <li><strong>Status:</strong> <label class="label label-danger">undone</label></li>-->
     <li><strong>Deadline:</strong> {{task.deadline}}</li>
+    <li><strong>Categories:</strong>
+        {% for category in categories %}
+        <label class="label label-info">{{category.name}}</label>
+        {% endfor %}
+    </li>
 </ul>
 <!-- Kuvaus tulee tähän -->
 <p>

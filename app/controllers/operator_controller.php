@@ -25,10 +25,8 @@ class OperatorController extends BaseController {
     }
 
     public static function logout() {
-        if (isset($_SESSION['operator'])) {
-            unset($_SESSION['operator']);
-        }
-        Redirect::to('/');
+        $_SESSION['operator'] = null;
+        Redirect::to('/', array('message' => 'You have logged out succesfully!'));
     }
 
     public static function register() {

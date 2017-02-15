@@ -6,6 +6,7 @@ INSERT INTO Task_list (name) VALUES ('Villen taulu');
 -- Priority-listan testidata
 INSERT INTO Priority (name) VALUES ('High');
 -- Task-listan testidata
-INSERT INTO Task (name, added, deadline) VALUES ('Siivoa', '17-01-24', '17-01-26');
 -- Category-listan testidata
-INSERT INTO Category (name) VALUES ('Mukavat hommat');
+INSERT INTO Category (name) VALUES ('School');
+INSERT INTO Category (name) VALUES ('Work');
+INSERT INTO Category (name) VALUES ('Home');

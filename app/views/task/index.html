@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 
-  {% if user_logged_in %}
-    <h1>{{user_logged_in.username}}'s tasks</h1>
-  {% endif %}
+{% if user_logged_in %}
+<h1>{{user_logged_in.username}}'s tasks</h1>
+{% endif %}
 
 
 
@@ -17,9 +17,10 @@
             <th>Name</th>
             <th>Added</th>
             <th>Deadline</th>
+            <th>Category</th>
             <!--        <th>Status</th>
                     <th>Priority</th>
-                    <th>Category</th>-->
+            -->
         </tr>
     </thead>
 
@@ -30,6 +31,11 @@
             <td><a href="{{base_path}}/task/{{task.id}}">{{task.name}}</a></td>
             <td>{{task.added}}</td>
             <td>{{task.deadline}}</td>
+            <td>
+                {% for category in categories %}
+                <label class="label label-info">{{category.name}}</label>
+                {% endfor %}
+            </td>
             <!--        <td><label class="label label-danger">undone</label></td>
                     <th><a class="btn btn-default btn-sm" href="#">Edit</a></th>-->
         </tr>

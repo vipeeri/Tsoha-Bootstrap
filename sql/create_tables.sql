@@ -21,6 +21,11 @@ CREATE TABLE Task(
      deadline DATE
 );
 
+CREATE TABLE Task_category(
+    category_id INTEGER REFERENCES Category (id),
+    task_id INTEGER REFERENCES Task (id)
+);
+
 CREATE TABLE Task_list(
     id SERIAL PRIMARY KEY,
     operator_id INTEGER REFERENCES Operator (id), -- Viiteavain Operator-tauluun
@@ -30,13 +35,10 @@ CREATE TABLE Task_list(
 
 CREATE TABLE Category(
     id SERIAL PRIMARY KEY,
-    name varchar(120)
+    name varchar(50)
 );
 
-CREATE TABLE Task_category(
-    category_id INTEGER REFERENCES Category (id),
-    task_id INTEGER REFERENCES Task (id)
-);
+
 
 
 
