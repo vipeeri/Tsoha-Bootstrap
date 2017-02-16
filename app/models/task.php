@@ -68,7 +68,7 @@ class Task extends BaseModel {
 
     public function save($category_id_list) {
         $query = DB::connection()->prepare('INSERT INTO Task (name, added, deadline, operator_id, priority_id) VALUES (:name, :added, :deadline, :operator_id, :priority_id) RETURNING id');
-        $query->execute(array('name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline, 'operator_id' => $_SESSION['operator'], 'priority_id' => $this->priority_id));
+        $query->execute(array('name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline, 'operator_id' => $_SESSION['operator'], 'priority' => $this->priority));
         $row = $query->fetch();
         $this->id = $row['id'];
 
