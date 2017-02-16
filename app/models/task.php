@@ -15,7 +15,7 @@ class Task extends BaseModel {
         // Alustetaan kysely tietokantayhteydellämme
         //SELECT task.name AS name, tas.added AS added, task.deadline AS deadline, category.name AS category
         //SELECT inventory.creature_id AS creature_id, inventory.weapon_id AS weapon_id       
-        $query = DB::connection()->prepare("SELECT task.id AS id, task.name AS name, task.added AS added, task.deadline AS deadline 
+        $query = DB::connection()->prepare("SELECT * 
                 FROM Task
                 WHERE operator_id = :operatorid");
         // Suoritetaan kysely
@@ -32,7 +32,8 @@ class Task extends BaseModel {
                 'id' => $row['id'],
                 'name' => $row['name'],
                 'added' => $row['added'],
-                'deadline' => $row['deadline']
+                'deadline' => $row['deadline'],
+                'priority_id' => $row['priority_id']
             ));
         }
 

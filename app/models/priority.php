@@ -9,11 +9,11 @@ class Priority extends BaseModel {
         $this->validators = array('validate_name');
     }
 
-    public static function getPriorityById($id) {
+    public static function getPriorityById($priority_id) {
         $query = DB::connection()->prepare("SELECT *
                                             FROM priority
                                             WHERE priority.id = :id");
-        $query->execute(array('id' => $id));
+        $query->execute(array('id' => $priority_id));
         $row = $query->fetch();
 
         if ($row) {
