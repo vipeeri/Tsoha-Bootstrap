@@ -63,7 +63,7 @@ class Task extends BaseModel {
     }
 
     public function findPriority() {
-        return Priority::getPriorityByTask($this->priority_id);
+        return Priority::getPriorityById($this->priority_id);
     }
 
     public function save($category_id_list) {
@@ -92,15 +92,17 @@ class Task extends BaseModel {
     }
 
     public function destroy() {
-        $query = DB::connection()->prepare("DELETE FROM Task WHERE id='$this->id'");
-        $query->execute();
-        //$query->execute(array('name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline));
+
+        $query = DB::connection()->prepare('DELETE FROM task_category WHERE task_id = :id');
+        $query->execute(array('id' => $this->id));
+        $query = DB::connection()->prepare('DELETE FROM task WHERE id = :id');
+        $query->execute(array('id' => $this->id));
     }
 
     public function validate_name() {
         $errors = array();
         if ($this->name == '' || $this->name == null) {
-            $errors[] = 'Name-field can not be empty!';
+            $errors[] = 'Name-field can not be emptysss!';
         }
         if (strlen($this->name) < 3) {
             $errors[] = 'Minimum length for name is 3 characters!';
@@ -131,4 +133,11 @@ class Task extends BaseModel {
         return $errors;
     }
 
+//    public function validate_category() {
+//        $errors = array();
+//        if ($categories = isset($params, 'categories')? $params['categories']:array()) {
+//            $errors[] = 'Choose a category!';
+//        }
+//        return $errors;
+//    }
 }

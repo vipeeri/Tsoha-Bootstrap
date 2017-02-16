@@ -36,6 +36,7 @@ class TaskController extends BaseController {
         $params = $_POST;
 
         $categories = $params['categories'];
+        //$priorities = $params['priorities'];
 
         $attributes = array(
             'name' => $params['name'],
@@ -48,6 +49,7 @@ class TaskController extends BaseController {
         foreach ($categories as $category) {
             $attributes['categories'][] = $category;
         }
+        
 
         $task = new Task($attributes);
         $errors = $task->errors();

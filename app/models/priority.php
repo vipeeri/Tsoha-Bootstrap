@@ -21,15 +21,16 @@ class Priority extends BaseModel {
                 'id' => $row['id'],
                 'name' => $row['name']
             ));
+        } else {
+            return null;
         }
         return $priority;
     }
 
     public static function getPriorityByTask($priority_id) {
-        $query = DB::connection()->prepare("SELECT *
+        $query = DB::connection()->prepare("SELECT priority.id AS id, priority.name
                     FROM priority
-                    INNER JOIN task
-                    ON priority.id = :id LIMIT 1");
+                    WHERE priority.id = :id");
         $query->execute(array('id' => $priority_id));
         $row = $query->fetch();
 
