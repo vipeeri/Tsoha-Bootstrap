@@ -18,9 +18,8 @@
             <th>Added</th>
             <th>Deadline</th>
             <th>Category</th>
-            <!--        <th>Status</th>
-                    <th>Priority</th>
-            -->
+            <th>Priority</th>
+
         </tr>
     </thead>
 
@@ -31,9 +30,16 @@
             <td><a href="{{base_path}}/task/{{task.id}}">{{task.name}}</a></td>
             <td>{{task.added}}</td>
             <td>{{task.deadline}}</td>
+            
             <td>
-                {% for category in categories %}
+                {% for category in task.findCategories %}
                 <label class="label label-info">{{category.name}}</label>
+                {% endfor %}
+            </td>
+            
+            <td>
+                {% for priority in task.findPriority %}
+                <label class="label label-danger">{{priority.name}}</label>
                 {% endfor %}
             </td>
             <!--        <td><label class="label label-danger">undone</label></td>

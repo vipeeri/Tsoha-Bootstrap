@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h1>Edit category: {{category.name}}</h1>
+
+<form method="post" action="{{base_path}}/category/{{category.id}}/edit">
+
+
+    <div class="form-group">
+ 
+        <input type="text" name ="name" class="form-control" value="{{category.name}}">
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+</form>
+{% endblock %}

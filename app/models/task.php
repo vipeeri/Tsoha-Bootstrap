@@ -3,7 +3,7 @@
 class Task extends BaseModel {
 
     // Attribuutit
-    public $id, $name, $deadline, $added, $operator_id, $category_id, $category;
+    public $id, $name, $deadline, $added, $operator_id, $category_id, $category, $priority, $priority_id;
 
     // Konstruktori
     public function __construct($attributes) {
@@ -14,7 +14,7 @@ class Task extends BaseModel {
     public static function all() {
         // Alustetaan kysely tietokantayhteydellämme
         //SELECT task.name AS name, tas.added AS added, task.deadline AS deadline, category.name AS category
- //SELECT inventory.creature_id AS creature_id, inventory.weapon_id AS weapon_id       
+        //SELECT inventory.creature_id AS creature_id, inventory.weapon_id AS weapon_id       
         $query = DB::connection()->prepare("SELECT task.id AS id, task.name AS name, task.added AS added, task.deadline AS deadline 
                 FROM Task
                 WHERE operator_id = :operatorid");
@@ -35,7 +35,7 @@ class Task extends BaseModel {
                 'deadline' => $row['deadline']
             ));
         }
-        
+
 
         return $tasks;
     }
@@ -57,38 +57,44 @@ class Task extends BaseModel {
             return $task;
         }
     }
-    
-    public static function findCategories() {
+
+    public function findCategories() {
         return Category::getCategoryByTask($this->id);
     }
-    
-     
 
-    public function save() {
-        // Lisätään RETURNING id tietokantakyselymme loppuun, niin saamme lisätyn rivin id-sarakkeen arvon
-        $query = DB::connection()->prepare('INSERT INTO Task (name, added, deadline, operator_id) VALUES (:name, :added, :deadline, :operator_id) RETURNING id');
-        // Muistathan, että olion attribuuttiin pääse syntaksilla $this->attribuutin_nimi
-        $query->execute(array('name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline, 'operator_id' => $_SESSION['operator']));
-        // Haetaan kyselyn tuottama rivi, joka sisältää lisätyn rivin id-sarakkeen arvon
-        $row = $query->fetch();
-        // Asetetaan lisätyn rivin id-sarakkeen arvo oliomme id-attribuutin arvoksi
-        $this->id = $row['id'];
-//    Kint::trace();
-//    Kint::dump($row);
+    public function findPriority() {
+        return Priority::getPriorityByTask($this->priority_id);
     }
 
-    public function update() {
+    public function save($category_id_list) {
+        $query = DB::connection()->prepare('INSERT INTO Task (name, added, deadline, operator_id, priority_id) VALUES (:name, :added, :deadline, :operator_id, :priority_id) RETURNING id');
+        $query->execute(array('name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline, 'operator_id' => $_SESSION['operator'], 'priority_id' => $this->priority_id));
+        $row = $query->fetch();
+        $this->id = $row['id'];
+
+        foreach ($category_id_list as $category_id) {
+            $query = DB::connection()->prepare('INSERT INTO task_category (task_id, category_id) VALUES (:task_id, :category_id)');
+            $query->execute(array('task_id' => $this->id, 'category_id' => $category_id));
+        }
+    }
+
+    public function update($category_id_list) {
         $query = DB::connection()->prepare('UPDATE Task SET (name, added, deadline, operator_id) = (:name, :added, :deadline, :operator_id) WHERE id = :id');
         $query->execute(array('id' => $this->id, 'name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline, 'operator_id' => $_SESSION['operator']));
-        
+
+        $query = DB::connection()->prepare('DELETE FROM task_category WHERE task_id = :task_id');
+        $query->execute(array('task_id' => $this->id));
+
+        foreach ($category_id_list as $category_id) {
+            $query = DB::connection()->prepare('INSERT INTO task_category (task_id, category_id) VALUES (:task_id, :category_id)');
+            $query->execute(array('task_id' => $this->id, 'category_id' => $category_id));
+        }
     }
 
     public function destroy() {
         $query = DB::connection()->prepare("DELETE FROM Task WHERE id='$this->id'");
         $query->execute();
         //$query->execute(array('name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline));
-       
-        
     }
 
     public function validate_name() {

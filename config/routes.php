@@ -56,6 +56,38 @@ $routes->get('/task/:id', function($id) {
     TaskController::task($id);
 });
 
+$routes->post('/category/:id/destroy', function($id) {
+    CategoryController::destroyCategory($id);
+});
+
+$routes->get('/category/new', function() {
+    CategoryController::newCategory();
+});
+
+$routes->get('/category/all', function() {
+    CategoryController::allCategories();
+});
+
+$routes->post('/category/add', function() {
+    CategoryController::storeCategory();
+});
+
+$routes->post('/category/:id/edit', function($id) {
+    CategoryController::updateCategory($id);
+});
+
+$routes->get('/category/:id/edit', function($id) {
+    CategoryController::editCategory($id);
+});
+
+$routes->get('/category/:id', function($id) {
+    CategoryController::category($id);
+});
+
+
+
+
+
 
 
 

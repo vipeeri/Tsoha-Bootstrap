@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+{% if message %}
+
+
+{% endif %}
+
+<h1>Category: {{category.name}}</h1>
+
+<form method="post" action="{{base_path}}/category/{{category.id}}/destroy" style="display: inline-block;">
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>
+
+<a href="{{base_path}}/category/{{category.id}}/edit" class="btn btn-success">Edit</a>
+
+<p>
+</p>
+{% endblock %}
