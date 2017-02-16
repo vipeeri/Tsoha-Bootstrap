@@ -32,14 +32,14 @@
             <td>{{task.deadline}}</td>
             
             <td>
-                {% for category in task.findCategories.name %}
+                {% for category in task.findCategories %}
                 <label class="label label-info">{{category.name}}</label>
                 {% endfor %}
             </td>
             
             <td>
                
-                <label class="label label-danger">{% task.findPriority().name %}</label>
+                <label class="label label-danger">{{task.findPriority.name}}</label>
                 
             </td>
             <!--        <td><label class="label label-danger">undone</label></td>
