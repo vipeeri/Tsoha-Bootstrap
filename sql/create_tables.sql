@@ -21,14 +21,6 @@ CREATE TABLE Task(
      deadline DATE
 );
 
-
-CREATE TABLE Task_list(
-    id SERIAL PRIMARY KEY,
-    operator_id INTEGER REFERENCES Operator (id), -- Viiteavain Operator-tauluun
-    task_id INTEGER REFERENCES Task (id),
-    name varchar(50)
-);
-
 CREATE TABLE Category(
     id SERIAL PRIMARY KEY,
     name varchar(50)

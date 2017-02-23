@@ -30,17 +30,23 @@
             <td><a href="{{base_path}}/task/{{task.id}}">{{task.name}}</a></td>
             <td>{{task.added}}</td>
             <td>{{task.deadline}}</td>
-            
+
             <td>
                 {% for category in task.findCategories %}
                 <label class="label label-info">{{category.name}}</label>
                 {% endfor %}
             </td>
-            
+
             <td>
-               
+                {%if (task.findPriority.name == 'High') %}
                 <label class="label label-danger">{{task.findPriority.name}}</label>
-                
+                {% elseif (task.findPriority.name == 'Medium') %}
+                <label class="label label-warning">{{task.findPriority.name}}</label>
+                {% else %}
+                <label class="label label-success">{{task.findPriority.name}}</label>
+
+
+                {% endif %}
             </td>
             <!--        <td><label class="label label-danger">undone</label></td>
                     <th><a class="btn btn-default btn-sm" href="#">Edit</a></th>-->
