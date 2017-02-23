@@ -103,7 +103,7 @@ class Task extends BaseModel {
     public function validate_name() {
         $errors = array();
         if ($this->name == '' || $this->name == null) {
-            $errors[] = 'Name-field can not be emptysss!';
+            $errors[] = 'Name-field can not be empty!';
         }
         if (strlen($this->name) < 3) {
             $errors[] = 'Minimum length for name is 3 characters!';
