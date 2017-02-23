@@ -35,21 +35,13 @@ class TaskController extends BaseController {
         self::check_logged_in();
         $params = $_POST;
 
-        //$categories = $params['categories'];
-        //$priorities = $params['priorities'];
-
         $attributes = array(
             'name' => $params['name'],
             'added' => $params['added'],
             'deadline' => $params['deadline'],
             'priority' => $params['priority']
         );
-
-
-//        foreach ($categories as $category) {
-//            $attributes['categories'][] = $category;
-//        }
-//        
+  
 
         $task = new Task($attributes);
         $errors = $task->errors();

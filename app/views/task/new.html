@@ -11,7 +11,7 @@
 
     <div class="form-group">
         <label>Added</label>
-        <input type="date" name="added" class="form-control" value={% if task %} "{{task.added}}" {% endif %}>
+        <input type="date" name="added" class="form-control" value={{ "now"|date("Y-m-d") }}>
     </div>
 
     <div class="form-group">
