@@ -32,9 +32,16 @@
             <td>{{task.deadline}}</td>
 
             <td>
+                {% if task.findCategories == null %}
+                <p>None</p>
+                {% endif %}
                 {% for category in task.findCategories %}
+                
+                
                 <label class="label label-info">{{category.name}}</label>
+                
                 {% endfor %}
+                
             </td>
 
             <td>

@@ -12,8 +12,10 @@ class TaskController extends BaseController {
 
         self::check_logged_in();
         $task = Task::find($id);
-        $categories = Category::getCategories();
-        View::make('task/show.html', array('task' => $task, 'categories' => $categories));
+        
+        //$categories = Category::getCategories();
+        //$priorities = Priority::getPriorities();
+        View::make('task/show.html', array('task' => $task));
     }
 
     public static function new_task() {
@@ -47,7 +49,9 @@ class TaskController extends BaseController {
         $errors = $task->errors();
 
         if (count($errors) > 0) {
-            View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes, 'task' => $task, 'categories' => $categories));
+            $categories = Category::getCategories();
+            $priorities = Priority::getPriorities();
+            View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes, 'task' => $task, 'categories' => $categories,'priorities' => $priorities));
         } else {
             if (isset($_POST['categories'])) {
                 $task->save($_POST['categories']);

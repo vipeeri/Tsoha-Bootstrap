@@ -15,17 +15,32 @@
 
 
 <!-- Tiedot tulee listana tähän -->
-<ul>
+
     <li><strong>Added:</strong> {{task.added}}</li>
     <!--    <li><strong>Status:</strong> <label class="label label-danger">undone</label></li>-->
     <li><strong>Deadline:</strong> {{task.deadline}}</li>
     <li><strong>Categories:</strong>
+        {% if task.findCategories == null %}
+        <span>None</span>
+        {% endif %}
         {% for category in task.findCategories %}
-        <label class="label label-info">{{category.name}}</label>
+
+        <span>
+            <label class="label label-info">{{category.name}}</label>
+        </span>
         {% endfor %}
     </li>
-</ul>
+
+    <li><strong>Priority:</strong>
+
+   
+        <label class="label label-danger">{{task.priority}}</label>
+        <p>JUU</p>
+        <p>{{task.findPriority.name}}</p>
+        
+
+    </li>
+
 <!-- Kuvaus tulee tähän -->
-<p>
-</p>
+
 {% endblock %}

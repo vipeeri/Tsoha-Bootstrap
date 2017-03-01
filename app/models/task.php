@@ -99,6 +99,9 @@ class Task extends BaseModel {
         $query = DB::connection()->prepare('DELETE FROM task WHERE id = :id');
         $query->execute(array('id' => $this->id));
     }
+    
+
+    
 
     public function validate_name() {
         $errors = array();
