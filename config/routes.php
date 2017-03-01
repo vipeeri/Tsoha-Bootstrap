@@ -84,6 +84,18 @@ $routes->get('/category/:id', function($id) {
     CategoryController::category($id);
 });
 
+$routes->get('/operator/all', function() {
+OperatorController::index();
+});
+
+$routes->post('/operator/:id/edit', function($id) {
+OperatorController::updateOperator($id);
+});
+
+$routes->get('/operator/:id/edit', function($id) {
+OperatorController::editOperator($id);
+});
+
 
 
 

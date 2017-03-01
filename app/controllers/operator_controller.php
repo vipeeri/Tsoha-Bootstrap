@@ -10,6 +10,43 @@ class OperatorController extends BaseController {
         View::make('operator/login.html');
     }
 
+    public static function index() {
+        self::check_logged_in();
+        $operators = Operator::findAllOperators();
+        View::make('operator/index.html', array('operators' => $operators));
+    }
+
+    public static function updateOperator($id) {
+        self::check_logged_in();
+        $params = $_POST;
+
+        $operator = new Operator(array(
+            'id' => $params['id'],
+            'username' => $params['username'],
+            'password' => $params['password']
+        ));
+        $errors = $operator->errors();
+        $compareaccount = Operator::findByUserName($operator->username); 
+
+        if ($compareaccount != null && ($compareaccount->id !== intval($operator->id))) {
+            $errors += array('Account exists already');
+        }
+
+        if (count($errors) > 0) {
+            View::make('operator/edit.html', array('errors' => $errors, 'operator' => $operator));
+            return false;
+        } else {
+            $operator->update();
+        }
+        Redirect::to('/operator/all', array('message' => 'Account updated!'));
+    }
+
+      public static function editOperator($id) {
+        self::check_logged_in();
+        $operator = Operator::findOne($id);
+        View::make('/operator/edit.html', array('operator' => $operator));
+    }
+    
     public static function handle_login() {
         $params = $_POST;
 
@@ -23,7 +60,6 @@ class OperatorController extends BaseController {
             Redirect::to('/task', array('message' => 'Welcome back, ' . $operator->username . '!'));
         }
     }
-    
 
     public static function logout() {
         $_SESSION['operator'] = null;
@@ -37,6 +73,7 @@ class OperatorController extends BaseController {
     public static function createAccount() {
         $params = $_POST;
         $operator = new Operator(array(
+            'id' => $params['id'],
             'username' => $params['username'],
             'password' => $params['password']
         ));

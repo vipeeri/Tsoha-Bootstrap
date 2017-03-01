@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h1 class="list-group-item">Accounts</h1>
+<table class="table table-striped table-bordered">
+    <thead>
+        
+    <tr>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Manage</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for operator in operators %}
+    <tr>
+        <td>{{operator.username}}</td>
+        <td>{{operator.password}}</td>
+
+        <th>
+            <a href="{{base_path}}/operator/{{operator.id}}/edit" class="btn btn-default">Edit</a>
+            {{buttons.destroy_button("#{base_path}/account/#{account.id}/delete")}}
+        </th>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -26,7 +26,7 @@ class Operator extends BaseModel {
     }
 
     public function getStatus() {
-                return $this->status;
+        return $this->status;
     }
 
     public static function findAllOperators() {
@@ -53,11 +53,17 @@ class Operator extends BaseModel {
             $operator = new Operator(array(
                 'id' => $row['id'],
                 'username' => $row['username'],
-                'password' => $row['password']
+                'password' => $row['password'],
+                'status' => $row['status']
             ));
             return $operator;
         }
         return null;
+    }
+
+    public function update() {
+        $query = DB::connection()->prepare('UPDATE operator SET id = :id, username = :username, password = :password WHERE id = :id');
+        $query->execute(array('id' => $this->id, 'username' => $this->username, 'password' => $this->password));
     }
 
     public static function findByUserName($username) {
