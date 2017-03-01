@@ -16,30 +16,36 @@
 
 <!-- Tiedot tulee listana tähän -->
 
-    <li><strong>Added:</strong> {{task.added}}</li>
-    <!--    <li><strong>Status:</strong> <label class="label label-danger">undone</label></li>-->
-    <li><strong>Deadline:</strong> {{task.deadline}}</li>
-    <li><strong>Categories:</strong>
-        {% if task.findCategories == null %}
-        <span>None</span>
-        {% endif %}
-        {% for category in task.findCategories %}
+<li><strong>Added:</strong> {{task.added}}</li>
+<!--    <li><strong>Status:</strong> <label class="label label-danger">undone</label></li>-->
+<li><strong>Deadline:</strong> {{task.deadline}}</li>
+<li><strong>Categories:</strong>
+    {% if task.findCategories == null %}
+    <span>None</span>
+    {% endif %}
+    {% for category in task.findCategories %}
 
-        <span>
-            <label class="label label-info">{{category.name}}</label>
-        </span>
-        {% endfor %}
-    </li>
+    <span>
+        <label class="label label-info">{{category.name}}</label>
+    </span>
+    {% endfor %}
+</li>
 
-    <li><strong>Priority:</strong>
+<li><strong>Priority:</strong>
 
-   
-        <label class="label label-danger">{{task.priority}}</label>
-        <p>JUU</p>
-        <p>{{task.findPriority.name}}</p>
-        
 
-    </li>
+    {%if (task.findPriority.name == 'High') %}
+    <label class="label label-danger">{{task.findPriority.name}}</label>
+    {% elseif (task.findPriority.name == 'Medium') %}
+    <label class="label label-warning">{{task.findPriority.name}}</label>
+    {% else %}
+    <label class="label label-success">{{task.findPriority.name}}</label>
+
+
+    {% endif %}
+
+
+</li>
 
 <!-- Kuvaus tulee tähän -->
 

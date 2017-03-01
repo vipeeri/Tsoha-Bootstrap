@@ -12,17 +12,14 @@
             Done
         </label>
     </div>
-
     <div class="form-group">
         <label>Name</label>
         <input type="text" name ="name" class="form-control" value="{{task.name}}">
     </div>
-
     <div class="form-group">
         <label>Added</label>
-        <input type="date" name ="added" class="form-control" value="{{task.added}}">
+        <input type="date" name ="added" class="form-control" value="{{task.added}}" readonly>
     </div>
-
     <div class="form-group">
         <label>Deadline</label>
         <input type="date" name ="deadline" class="form-control" value="{{task.deadline}}">
@@ -35,6 +32,14 @@
             {% endfor %}
         </select>
     </div>
+    <div class="form-group">
+        <label>Priority</label>
+        <select class="form-control" name="priority">
+            {% for priority in priorities %}
+            <option value="{{priority.id}}">{{priority.name}}
+        </option>
+        {% endfor %}
+    </select>
 
     <button type="submit" class="btn btn-primary">Save</button>
 

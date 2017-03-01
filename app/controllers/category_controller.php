@@ -5,8 +5,8 @@ class CategoryController extends BaseController {
     public static function allCategories() {
         self::check_logged_in();
 
-        $categories = Category::getCategories();
-        View::make('/category/index.html', array('categories' => $categories));
+
+        View::make('/category/index.html', array('categories' => Category::getCategoryByOperator(self::get_user_logged_in()->id)));
     }
 
     public static function category($id) {
@@ -32,7 +32,8 @@ class CategoryController extends BaseController {
 
         $category = new Category(array(
             'id' => $id,
-            'name' => $params['name']
+            'name' => $params['name'],
+            'operator_id' => $params['operator_id']
         ));
 
         $errors = $category->errors();
@@ -52,10 +53,9 @@ class CategoryController extends BaseController {
         self::check_logged_in();
         $params = $_POST;
 
-
-
         $attributes = array(
-            'name' => $params['name']
+            'name' => $params['name'],
+            'operator_id' => self::get_user_logged_in()->id
         );
 
 
@@ -82,7 +82,3 @@ class CategoryController extends BaseController {
     }
 
 }
-
-//}
-
-//}

@@ -12,25 +12,21 @@ class TaskController extends BaseController {
 
         self::check_logged_in();
         $task = Task::find($id);
-        
-        //$categories = Category::getCategories();
-        //$priorities = Priority::getPriorities();
+
         View::make('task/show.html', array('task' => $task));
     }
 
     public static function new_task() {
         self::check_logged_in();
-        $categories = Category::getCategories();
-        $priorities = Priority::getPriorities();
-        View::make('task/new.html', array('categories' => $categories, 'priorities' => $priorities));
+
+        View::make('task/new.html', array('categories' => Category::getCategoryByOperator(self::get_user_logged_in()->id), 'priorities' => Priority::getPriorities()));
     }
 
     public static function editTask($id) {
 
         self::check_logged_in();
         $task = Task::find($id);
-        $categories = Category::getCategories();
-        View::make('task/edit.html', array('task' => $task, 'categories' => $categories));
+        View::make('task/edit.html', array('task' => $task, 'categories' => Category::getCategories(), 'priorities' => Priority::getPriorities()));
     }
 
     public static function store() {
@@ -49,9 +45,7 @@ class TaskController extends BaseController {
         $errors = $task->errors();
 
         if (count($errors) > 0) {
-            $categories = Category::getCategories();
-            $priorities = Priority::getPriorities();
-            View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes, 'task' => $task, 'categories' => $categories,'priorities' => $priorities));
+            View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes, 'task' => $task, 'categories' => Category::getCategories(),'priorities' => Priority::getPriorities()));
         } else {
             if (isset($_POST['categories'])) {
                 $task->save($_POST['categories']);
@@ -72,13 +66,14 @@ class TaskController extends BaseController {
             'name' => $params['name'],
             'added' => $params['added'],
             'deadline' => $params['deadline'],
+            'priority' => $params['priority']
         ));
 
         $errors = $task->errors();
 
         if (count($errors) > 0) {
 
-            View::make('task/edit.html', array('errors' => $errors, 'task' => $task));
+            View::make('task/edit.html', array('errors' => $errors, 'task' => $task, 'categories' => Category::getCategories(), 'priorities' => Priority::getPriorities()));
         } else {
              if (isset($_POST['categories'])) {
                 $task->update($_POST['categories']);

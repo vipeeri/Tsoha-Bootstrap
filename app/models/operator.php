@@ -2,7 +2,7 @@
 
 class Operator extends BaseModel {
 
-    public $id, $username, $password;
+    public $id, $username, $password, $status;
 
     // Konstruktori
     public function __construct($attributes) {
@@ -25,13 +25,32 @@ class Operator extends BaseModel {
         }
     }
 
+    public function getStatus() {
+                return $this->status;
+    }
+
+    public static function findAllOperators() {
+        $query = DB::connection()->prepare('SELECT * FROM operator');
+        $query->execute();
+        $rows = $query->fetchAll();
+        $accounts = array();
+        foreach ($rows as $row) {
+            $operators[] = new Operator(array(
+                'id' => $row['id'],
+                'username' => $row['username'],
+                'password' => $row['password']
+            ));
+        }
+        return $operators;
+    }
+
     public static function findOne($id) {
         $query = DB::connection()->prepare('SELECT * FROM operator WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
         $row = $query->fetch();
-        
+
         if ($row) {
-            $operator = new Operator(array (
+            $operator = new Operator(array(
                 'id' => $row['id'],
                 'username' => $row['username'],
                 'password' => $row['password']
@@ -40,8 +59,8 @@ class Operator extends BaseModel {
         }
         return null;
     }
-    
-       public static function findByUserName($username) {
+
+    public static function findByUserName($username) {
         $query = DB::connection()->prepare('SELECT * FROM operator WHERE username = :username LIMIT 1');
         $query->execute(array('username' => $username));
         $row = $query->fetch();
@@ -49,13 +68,13 @@ class Operator extends BaseModel {
             $operator = new Operator(array(
                 'id' => $row['id'],
                 'username' => $row['username'],
-                'password' => $row['password'],
+                'password' => $row['password']
             ));
             return $operator;
         }
         return null;
     }
-    
+
     public function save() {
         $query = DB::connection()->prepare('SELECT * FROM operator WHERE username = :username');
         $query->execute(array('username' => $this->username));
@@ -75,7 +94,7 @@ class Operator extends BaseModel {
         if (strlen($this->username) < 2) {
             $errors[] = 'Minimum length for username is 2 characters!';
         }
-        
+
         return $errors;
     }
 
@@ -85,7 +104,7 @@ class Operator extends BaseModel {
             $errors[] = 'Password-field can not be empty!';
         }
 
-        
+
         return $errors;
     }
 

@@ -23,6 +23,7 @@ class OperatorController extends BaseController {
             Redirect::to('/task', array('message' => 'Welcome back, ' . $operator->username . '!'));
         }
     }
+    
 
     public static function logout() {
         $_SESSION['operator'] = null;

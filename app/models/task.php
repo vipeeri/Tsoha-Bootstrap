@@ -52,7 +52,8 @@ class Task extends BaseModel {
                 'name' => $row['name'],
                 'added' => $row['added'],
                 'deadline' => $row['deadline'],
-                'operator_id' => $row['operator_id']
+                'operator_id' => $row['operator_id'],
+                'priority_id' => $row['priority_id']
             ));
 
             return $task;
@@ -116,13 +117,16 @@ class Task extends BaseModel {
     }
 
     public function validate_deadline() {
+        $today = date("Y-m-d");
         $errors = array();
 
         if ($this->deadline == '' || $this->deadline == null) {
             $errors[] = 'Deadline-field can not be empty!';
         }
 
-
+        if ($this->deadline < $today) {
+            $errors[] ='Deadline can not be in the past!';
+        }
 
         return $errors;
     }
@@ -133,15 +137,9 @@ class Task extends BaseModel {
             $errors[] = 'Added-field can not be empty!';
         }
 
-
+        
         return $errors;
     }
 
-//    public function validate_category() {
-//        $errors = array();
-//        if ($categories = isset($params, 'categories')? $params['categories']:array()) {
-//            $errors[] = 'Choose a category!';
-//        }
-//        return $errors;
-//    }
+
 }
