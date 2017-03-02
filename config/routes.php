@@ -96,6 +96,10 @@ $routes->get('/operator/:id/edit', function($id) {
 OperatorController::editOperator($id);
 });
 
+$routes->post('/operator/:id/destroy', function($id) {
+    OperatorController::destroyOperator($id);
+});
+
 
 
 

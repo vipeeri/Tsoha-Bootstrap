@@ -61,9 +61,28 @@ class Operator extends BaseModel {
         return null;
     }
 
-    public function update() {
-        $query = DB::connection()->prepare('UPDATE operator SET id = :id, username = :username, password = :password WHERE id = :id');
-        $query->execute(array('id' => $this->id, 'username' => $this->username, 'password' => $this->password));
+//    public function update() {
+//        $query = DB::connection()->prepare('UPDATE operator SET id = :id, username = :username, password = :password WHERE id = :id');
+//        $query->execute(array('id' => $this->id, 'username' => $this->username, 'password' => $this->password));
+//    }
+    public function categories() {
+        return Category::getCategoryByOperator($this->id);
+    }
+
+    public function destroy() {
+        
+        
+       
+        foreach (Operator::findOne($this->id)->categories() as $category) {
+            $query = DB::connection()->prepare('DELETE FROM task_category WHERE category_id = :categoryId');
+            $query->execute(array('categoryId' => $category->id));
+        }
+        $query = DB::connection()->prepare('DELETE FROM category WHERE operator_id = :id');
+        $query->execute(array('id' => $this->id));
+        $query = DB::connection()->prepare('DELETE FROM task WHERE operator_id = :id');
+        $query->execute(array('id' => $this->id));
+        $query = DB::connection()->prepare('DELETE FROM operator WHERE id = :id AND status < 1');
+        $query->execute(array('id' => $this->id));
     }
 
     public static function findByUserName($username) {

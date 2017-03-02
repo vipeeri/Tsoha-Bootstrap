@@ -21,7 +21,6 @@ class OperatorController extends BaseController {
         $params = $_POST;
 
         $operator = new Operator(array(
-            'id' => $params['id'],
             'username' => $params['username'],
             'password' => $params['password']
         ));
@@ -39,6 +38,18 @@ class OperatorController extends BaseController {
             $operator->update();
         }
         Redirect::to('/operator/all', array('message' => 'Account updated!'));
+    }
+    
+        public static function destroyOperator($id) {
+        self::check_logged_in();
+        $operator = new Operator(array('id' => $id));
+        
+        $operator->destroy();
+
+        Redirect::to('/operator/all', array('message' => 'User removed succesfully!'));
+        
+        
+        
     }
 
       public static function editOperator($id) {
@@ -73,7 +84,6 @@ class OperatorController extends BaseController {
     public static function createAccount() {
         $params = $_POST;
         $operator = new Operator(array(
-            'id' => $params['id'],
             'username' => $params['username'],
             'password' => $params['password']
         ));

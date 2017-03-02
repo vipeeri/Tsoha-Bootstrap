@@ -30,8 +30,8 @@ CREATE TABLE Category(
 
 CREATE TABLE Task_category(
     id SERIAL PRIMARY KEY,
-    task_id INTEGER REFERENCES Task (id),
-    category_id INTEGER REFERENCES Category (id)
+    task_id INTEGER REFERENCES Task (id) ON DELETE CASCADE,
+    category_id INTEGER REFERENCES Category (id) ON DELETE CASCADE
 );
 
 
