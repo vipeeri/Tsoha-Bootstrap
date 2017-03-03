@@ -33,7 +33,7 @@ class CategoryController extends BaseController {
         $category = new Category(array(
             'id' => $id,
             'name' => $params['name'],
-            'operator_id' => $params['operator_id']
+            'operator_id' => self::get_user_logged_in()->id
         ));
 
         $errors = $category->errors();
