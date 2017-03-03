@@ -26,7 +26,7 @@ class TaskController extends BaseController {
 
         self::check_logged_in();
         $task = Task::find($id);
-        View::make('task/edit.html', array('task' => $task, 'categories' => Category::getCategories(), 'priorities' => Priority::getPriorities()));
+        View::make('task/edit.html', array('task' => $task, 'categories' => Category::getCategoryByOperator(self::get_user_logged_in()->id), 'priorities' => Priority::getPriorities()));
     }
 
     public static function store() {
@@ -73,7 +73,7 @@ class TaskController extends BaseController {
 
         if (count($errors) > 0) {
 
-            View::make('task/edit.html', array('errors' => $errors, 'task' => $task, 'categories' => Category::getCategories(), 'priorities' => Priority::getPriorities()));
+            View::make('task/edit.html', array('errors' => $errors, 'task' => $task, 'categories' => Category::getCategoryByOperator(self::get_user_logged_in()->id), 'priorities' => Priority::getPriorities()));
         } else {
              if (isset($_POST['categories'])) {
                 $task->update($_POST['categories']);

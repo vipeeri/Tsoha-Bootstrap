@@ -31,7 +31,6 @@ class CategoryController extends BaseController {
         $params = $_POST;
 
         $category = new Category(array(
-            'id' => $id,
             'name' => $params['name'],
             'operator_id' => $params['operator_id']
         ));
@@ -54,6 +53,7 @@ class CategoryController extends BaseController {
         $params = $_POST;
 
         $attributes = array(
+            'id' => $id,
             'name' => $params['name'],
             'operator_id' => self::get_user_logged_in()->id
         );

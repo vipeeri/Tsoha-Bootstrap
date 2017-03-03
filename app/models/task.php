@@ -81,8 +81,8 @@ class Task extends BaseModel {
     }
 
     public function update($category_id_list) {
-        $query = DB::connection()->prepare('UPDATE Task SET (name, added, deadline, operator_id) = (:name, :added, :deadline, :operator_id) WHERE id = :id');
-        $query->execute(array('id' => $this->id, 'name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline, 'operator_id' => $_SESSION['operator']));
+        $query = DB::connection()->prepare('UPDATE Task SET (name, added, deadline, operator_id, priority_id) = (:name, :added, :deadline, :operator_id, :priority_id) WHERE id = :id');
+        $query->execute(array('id' => $this->id, 'name' => $this->name, 'added' => $this->added, 'deadline' => $this->deadline, 'operator_id' => $_SESSION['operator'], 'priority_id' => $this->priority));
 
         $query = DB::connection()->prepare('DELETE FROM task_category WHERE task_id = :task_id');
         $query->execute(array('task_id' => $this->id));
