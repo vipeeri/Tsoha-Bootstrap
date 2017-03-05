@@ -45,7 +45,7 @@ class TaskController extends BaseController {
         $errors = $task->errors();
 
         if (count($errors) > 0) {
-            View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes, 'task' => $task, 'categories' => Category::getCategories(),'priorities' => Priority::getPriorities()));
+            View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes, 'task' => $task, 'categories' => Category::getCategoryByOperator(self::get_user_logged_in()->id),'priorities' => Priority::getPriorities()));
         } else {
             if (isset($_POST['categories'])) {
                 $task->save($_POST['categories']);

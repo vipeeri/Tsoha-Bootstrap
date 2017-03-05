@@ -100,9 +100,6 @@ class Task extends BaseModel {
         $query = DB::connection()->prepare('DELETE FROM task WHERE id = :id');
         $query->execute(array('id' => $this->id));
     }
-    
-
-    
 
     public function validate_name() {
         $errors = array();
@@ -111,6 +108,15 @@ class Task extends BaseModel {
         }
         if (strlen($this->name) < 3) {
             $errors[] = 'Minimum length for name is 3 characters!';
+        }
+
+        if (ctype_space($this->name)) {
+            $errors[] = 'Task can not be empty spaces';
+        }
+
+
+        if (preg_match('/\\d/', $this->name) > 0) {
+            $errors[] = 'Please make sure your task name does not contain integers';
         }
 
         return $errors;
@@ -125,7 +131,7 @@ class Task extends BaseModel {
         }
 
         if ($this->deadline < $today) {
-            $errors[] ='Deadline can not be in the past!';
+            $errors[] = 'Deadline can not be in the past!';
         }
 
         return $errors;
@@ -137,9 +143,8 @@ class Task extends BaseModel {
             $errors[] = 'Added-field can not be empty!';
         }
 
-        
+
         return $errors;
     }
-
 
 }
